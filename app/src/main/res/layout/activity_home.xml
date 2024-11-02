@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e29745"
+    android:gravity="top"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="68dp"
+            android:layout_height="80dp"
+            android:baselineAligned="false"
+            android:contentDescription="Logo"
+            android:src="@drawable/logo" /> <!-- Poziționează butonul sub ListView -->
+    </RelativeLayout>
+
+    <include layout="@layout/appbar"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Înregistează-ți ultimul tău somn!"
+        android:textAlignment="center"
+        android:textAppearance="@color/material_dynamic_neutral0"
+        android:textSize="24sp" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="wrap_content"
+        android:layout_height="456dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/buttonDateSomn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Adaugă Date Somn" />
+</LinearLayout>

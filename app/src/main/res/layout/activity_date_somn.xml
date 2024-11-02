@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#e29745"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextDataSomn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Data Somnului (yyyy-MM-dd)" />
+
+    <EditText
+        android:id="@+id/editTextOraTrezirii"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ora Trezirii (HH:mm)" />
+
+    <EditText
+        android:id="@+id/editTextDurataSomnului"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Durata Somnului (ore)" />
+
+    <EditText
+        android:id="@+id/editTextCalitateSomnului"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Calitate Somnului (1-10)" />
+
+    <EditText
+        android:id="@+id/editTextNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Note" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Salvează" />
+</LinearLayout>

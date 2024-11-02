@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#e29745"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    android:icon="@mipmap/logo"
+    android:roundIcon="@mipmap/logo">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="410dp"
+        android:contentDescription="Logo"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/tvZomn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="0dp"
+        android:fontFamily="Arial"
+        android:text="ZzSomn"
+        android:textAlignment="center"
+        android:textSize="50dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvBineAiVenit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="LEMONMILK-Regular.otf"
+        android:textAlignment="center"
+        android:textSize="50dp"
+        android:text="Bine ai venit!"
+        android:layout_marginBottom="25dp"/>
+
+
+    <Button
+        android:id="@+id/bSignIn"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        android:text="Intră în cont!" />
+
+    <Button
+        android:id="@+id/bCreateAccout"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Nu ai cont? Creează unul acum!" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Ai uitat parola contului tău?" />
+
+    <Button
+        android:id="@+id/bResetPassword"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+
+        android:text="Resetează parola" />
+
+</LinearLayout>
