@@ -15,10 +15,17 @@
         app:showAsAction="ifRoom"
         tools:ignore="HardcodedText" />
     <item
+        android:id="@+id/action_profil"
+        android:title="Date Profil"
+        android:orderInCategory="102"
+        app:showAsAction="ifRoom"
+        tools:ignore="HardcodedText" />
+    <item
         android:id="@+id/action_about"
         android:title="Despre noi"
         android:orderInCategory="102"
         app:showAsAction="ifRoom"
         tools:ignore="HardcodedText" />
+
 
 </menu>

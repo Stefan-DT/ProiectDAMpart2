@@ -38,7 +38,7 @@ public class SignInActivity extends Activity {
         bGoToMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Deschide MainActivity
+
                 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                 startActivity(intent);
             }

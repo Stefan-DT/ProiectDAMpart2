@@ -2,6 +2,7 @@ package csie.ase.ro;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -43,21 +44,24 @@ public class CreateAccountActivity extends Activity {
                 String height = etHeight.getText().toString();
                 String sex = spinnerSex.getSelectedItem().toString();
 
-
                 if (email.isEmpty() || password.isEmpty() || name.isEmpty() || surname.isEmpty() ||
                         age.isEmpty() || height.isEmpty()) {
                     Toast.makeText(CreateAccountActivity.this, "Te rog completează toate câmpurile!", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    Intent intent = new Intent(CreateAccountActivity.this, HomeActivity.class);
-                    intent.putExtra("email", email);
-                    intent.putExtra("password", password);
-                    intent.putExtra("name", name);
-                    intent.putExtra("surname", surname);
-                    intent.putExtra("age", age);
-                    intent.putExtra("height", height);
-                    intent.putExtra("sex", sex);
+                    SharedPreferences sharedPreferences = getSharedPreferences("userProfile", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("email", email);
+                    editor.putString("name", name);
+                    editor.putString("surname", surname);
+                    editor.putString("age", age);
+                    editor.putString("height", height);
+                    editor.putString("sex", sex);
+                    editor.apply();
+
+                    Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });

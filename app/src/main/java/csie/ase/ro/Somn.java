@@ -17,8 +17,6 @@ public class Somn implements Serializable {
         this.calitateSomnului = calitateSomnului;
         this.note = note;
     }
-
-    // Getters
     public Date getDataSomnului() {
         return dataSomnului;
     }
@@ -29,10 +27,6 @@ public class Somn implements Serializable {
 
     public int getDurataSomnului() {
         return durataSomnului;
-    }
-
-    public int getCalitateSomnului() {
-        return calitateSomnului;
     }
 
     public String getNote() {

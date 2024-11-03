@@ -27,11 +27,16 @@ public class DateSomn extends AppCompatActivity {
         EditText editTextNote = findViewById(R.id.editTextNote);
         Button buttonSave = findViewById(R.id.buttonSave);
 
+        editTextDataSomn.setText("2024-11-01");
+        editTextOraTrezirii.setText("07:00");
+        editTextDurataSomnului.setText("7");
+        editTextCalitateSomnului.setText("8");
+        editTextNote.setText("Somn odihnitor");
+
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
@@ -42,12 +47,11 @@ public class DateSomn extends AppCompatActivity {
                     String note = editTextNote.getText().toString();
 
 
-                    Somn somn = new Somn(dataSomnului, oraTrezirii, durataSomnului, calitateSomnului, note);
+                    Somn somnData = new Somn(dataSomnului, oraTrezirii, durataSomnului, calitateSomnului,note);
 
                     Intent intent = new Intent();
-                    intent.putExtra("somnData", somn);
+                    intent.putExtra("somnData", somnData); // Transmite obiectul Somn
                     setResult(RESULT_OK, intent);
-
 
                     Toast.makeText(DateSomn.this, "Somn înregistrat", Toast.LENGTH_LONG).show();
 
@@ -55,6 +59,7 @@ public class DateSomn extends AppCompatActivity {
 
                 } catch (ParseException | NumberFormatException e) {
                     e.printStackTrace();
+                    Toast.makeText(DateSomn.this, "Eroare la înregistrare: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

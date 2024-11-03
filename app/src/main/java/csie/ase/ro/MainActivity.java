@@ -17,12 +17,10 @@ public class MainActivity extends Activity {
         bSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(MainActivity.this, SignInActivity.class);
                 startActivity(intent);
             }
         });
-
 
         Button bCreateAccount = findViewById(R.id.bCreateAccout);
         bCreateAccount.setOnClickListener(new View.OnClickListener() {
