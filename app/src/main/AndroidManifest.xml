@@ -29,6 +29,8 @@
         <activity
             android:name=".AjutorActivity"
             android:label="Ajutor" />
+
+        <activity android:name=".EditAjutorActivity"></activity>
     </application>
 
 </manifest>

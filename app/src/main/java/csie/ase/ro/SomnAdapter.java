@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class SomnAdapter extends ArrayAdapter<Somn> {
     public SomnAdapter(Context context, ArrayList<Somn> somnList) {
@@ -24,21 +23,23 @@ public class SomnAdapter extends ArrayAdapter<Somn> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.somn_list_item, parent, false);
         }
 
+
         TextView textViewData = convertView.findViewById(R.id.textViewData);
         TextView textViewOra = convertView.findViewById(R.id.textViewOra);
         TextView textViewDurata = convertView.findViewById(R.id.textViewDurata);
+        TextView textViewCalitateSomnului = convertView.findViewById(R.id.textViewCalitateSomnului);  // Noua linie
         TextView textViewNota = convertView.findViewById(R.id.textViewNota);
 
-        // Formatează data și ora
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
-        String dataString = dateFormat.format(somn.getDataSomnului()); // presupunând că ai un getter pentru data
-        String oraString = timeFormat.format(somn.getOraTrezirii()); // presupunând că ai un getter pentru ora
+        String dataString = dateFormat.format(somn.getDataSomnului());
+        String oraString = timeFormat.format(somn.getOraTrezirii());
 
         textViewData.setText(dataString);
         textViewOra.setText(oraString);
         textViewDurata.setText(String.valueOf(somn.getDurataSomnului()));
+        textViewCalitateSomnului.setText(String.valueOf(somn.getCalitateSomnului()));
         textViewNota.setText(somn.getNote());
 
         if (somn.getDurataSomnului() < 8) {

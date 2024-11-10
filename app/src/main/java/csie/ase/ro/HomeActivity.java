@@ -43,6 +43,15 @@ public class HomeActivity extends AppCompatActivity {
             startActivityForResult(intent, 1);
         });
 
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Somn selectedSomn = somnDataList.get(position);
+            Intent intent = new Intent(HomeActivity.this, DateSomn.class);
+            intent.putExtra("somnData", selectedSomn);
+            intent.putExtra("position", position);
+            startActivityForResult(intent, 2);
+        });
+
+
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_logout) {
                 Intent intentLogout = new Intent(HomeActivity.this, MainActivity.class);
@@ -73,8 +82,18 @@ public class HomeActivity extends AppCompatActivity {
             Somn somnData = (Somn) data.getSerializableExtra("somnData");
             somnDataList.add(somnData);
             adapter.notifyDataSetChanged();
+        } else if (requestCode == 2 && resultCode == RESULT_OK) {
+            Somn updatedSomn = (Somn) data.getSerializableExtra("somnData");
+
+            int position = data.getIntExtra("position", -1);
+
+            if (position != -1) {
+                somnDataList.set(position, updatedSomn);
+                adapter.notifyDataSetChanged();
+            }
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

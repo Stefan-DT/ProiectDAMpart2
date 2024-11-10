@@ -29,6 +29,13 @@
         android:textColor="@android:color/black" />
 
     <TextView
+        android:id="@+id/textViewCalitateSomnului"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@android:color/black" />
+
+    <TextView
         android:id="@+id/textViewNota"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
