@@ -20,6 +20,7 @@ import java.util.List;
 
 public class AjutorActivity extends AppCompatActivity {
 
+    private AjutorDAO ajutorDAO;
     private EditText editTextInfo1;
     private EditText editTextInfo2;
     private Button buttonTrimite;
@@ -39,22 +40,26 @@ public class AjutorActivity extends AppCompatActivity {
         buttonTrimite = findViewById(R.id.buttonTrimite);
         listViewInfo = findViewById(R.id.listViewInfo);
 
-        sharedPreferences = getSharedPreferences("AjutorPrefs", MODE_PRIVATE);
-
         LayoutInflater inflater = getLayoutInflater();
         adapter = new AjutorAdapter(this, R.layout.list_item, listaMare, inflater);
         listViewInfo.setAdapter(adapter);
+
+        ajutorDAO = AjutorDB.getInstance(this).getAjutorDAO();
+
         loadAjutoare();
 
         buttonTrimite.setOnClickListener(v -> {
             String nume = editTextInfo1.getText().toString();
             String problema = editTextInfo2.getText().toString();
-            Ajutor ticket = new Ajutor(nume, problema);
-            listaMare.add(ticket);
 
-            saveAjutoare();
+            if (!nume.isEmpty() && !problema.isEmpty()) {
+                Ajutor ticket = new Ajutor(nume, problema);
+                listaMare.add(ticket);
 
-            adapter.notifyDataSetChanged();
+                ajutorDAO.insertAjutor(ticket);
+
+                adapter.notifyDataSetChanged();
+            }
         });
 
         listViewInfo.setOnItemClickListener((parent, view, position, id) -> {
@@ -65,23 +70,27 @@ public class AjutorActivity extends AppCompatActivity {
             intent.putExtra("position", position);
             startActivityForResult(intent, 1);
         });
+
+
+        listViewInfo.setOnItemLongClickListener((parent, view, position, id) -> {
+            Ajutor ajutorToDelete = listaMare.get(position);
+
+            ajutorDAO.deleteAjutorById(ajutorToDelete.getId());
+
+            listaMare.remove(position);
+            adapter.notifyDataSetChanged();
+
+            return true;
+        });
+
     }
 
-    private void saveAjutoare() {
-        Gson gson = new Gson();
-        String json = gson.toJson(listaMare);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("ajutoareList", json);
-        editor.apply();
-    }
+
 
     private void loadAjutoare() {
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("ajutoareList", null);
-        Type type = new TypeToken<List<Ajutor>>() {}.getType();
-        if (json != null) {
-            listaMare = gson.fromJson(json, type);
-        }
+        listaMare.clear();
+        listaMare.addAll(ajutorDAO.getAjutor());
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -93,12 +102,12 @@ public class AjutorActivity extends AppCompatActivity {
             int position = data.getIntExtra("position", -1);
 
             if (position != -1) {
+                ajutorDAO.updateAjutor(updatedAjutor);
+
                 listaMare.set(position, updatedAjutor);
-
-                saveAjutoare();
-
                 adapter.notifyDataSetChanged();
             }
         }
     }
+
 }

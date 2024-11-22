@@ -1,19 +1,30 @@
 package csie.ase.ro;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Entity(tableName = "Somn")
 public class Somn implements Serializable {
 
+    @PrimaryKey(autoGenerate = true)
+    private Long id;
+
+    @TypeConverters(DateConverter.class)  // Adaugă TypeConverter pentru date
     private Date dataSomnului;
+
+    @TypeConverters(DateConverter.class)  // Adaugă TypeConverter pentru ora trezirii
     private Date oraTrezirii;
+
     private int durataSomnului;
     private int calitateSomnului;
     private String note;
 
-    // Constructor
     public Somn(Date dataSomnului, Date oraTrezirii, int durataSomnului, int calitateSomnului, String note) {
         this.dataSomnului = dataSomnului;
         this.oraTrezirii = oraTrezirii;
@@ -22,7 +33,14 @@ public class Somn implements Serializable {
         this.note = note;
     }
 
-    // Getters și Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Date getDataSomnului() {
         return dataSomnului;
     }
@@ -63,6 +81,7 @@ public class Somn implements Serializable {
         this.note = note;
     }
 
+    // Metodele parseDate și parseTime trebuie să fie statice
     public static Date parseDate(String dateString) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {

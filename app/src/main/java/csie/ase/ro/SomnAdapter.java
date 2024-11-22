@@ -27,7 +27,7 @@ public class SomnAdapter extends ArrayAdapter<Somn> {
         TextView textViewData = convertView.findViewById(R.id.textViewData);
         TextView textViewOra = convertView.findViewById(R.id.textViewOra);
         TextView textViewDurata = convertView.findViewById(R.id.textViewDurata);
-        TextView textViewCalitateSomnului = convertView.findViewById(R.id.textViewCalitateSomnului);  // Noua linie
+        TextView textViewCalitateSomnului = convertView.findViewById(R.id.textViewCalitateSomnului);
         TextView textViewNota = convertView.findViewById(R.id.textViewNota);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

@@ -45,4 +45,13 @@
         android:textSize="18sp"
         android:layout_marginBottom="16dp" />
 
+    <Button
+        android:id="@+id/buttonDeleteAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Șterge toate înregistrările"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center" />
+
+
 </LinearLayout>

@@ -1,8 +1,14 @@
 package csie.ase.ro;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity(tableName = "Ajutor")
 public class Ajutor implements Serializable {
+    @PrimaryKey(autoGenerate = true)
+    private Long id;
     private String numeAjutor;
     private String descriereAjutor;
 
@@ -10,6 +16,23 @@ public class Ajutor implements Serializable {
     public Ajutor(String numeAjutor, String descriereAjutor) {
         this.numeAjutor = numeAjutor;
         this.descriereAjutor = descriereAjutor;
+    }
+
+    @Override
+    public String toString() {
+        return "Ajutor{" +
+                "id=" + id +
+                ", numeAjutor='" + numeAjutor + '\'' +
+                ", descriereAjutor='" + descriereAjutor + '\'' +
+                '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNumeAjutor() {
@@ -26,14 +49,6 @@ public class Ajutor implements Serializable {
 
     public void setDescriereAjutor(String descriereAjutor) {
         this.descriereAjutor = descriereAjutor;
-    }
-
-    @Override
-    public String toString() {
-        return "Ajutor{" +
-                "numeAjutor='" + numeAjutor + '\'' +
-                ", descriereAjutor='" + descriereAjutor + '\'' +
-                '}';
     }
 
 

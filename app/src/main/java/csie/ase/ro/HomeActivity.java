@@ -13,11 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private ArrayList<String> profilData;
-    private ArrayList<Somn> somnDataList;
+    private SomnDAO somnDAO; // DAO pentru Room
+    private ArrayList<Somn> somnDataList = new ArrayList<>();  // Modifică aici
     private SomnAdapter adapter;
 
     @Override
@@ -25,22 +26,32 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Toolbar
         Toolbar toolbar = findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
 
-        profilData = new ArrayList<>();
-        profilData.add("Nume: Ion Popescu");
-        profilData.add("Email: ion.popescu@example.com");
+        // Inițializare DAO
+        somnDAO = SomnDB.getInstance(this).getSomnDAO();
 
-        somnDataList = new ArrayList<>();
+        // Inițializare ListView și Adapter
         ListView listView = findViewById(R.id.listViewSomnData);
-        adapter = new SomnAdapter(this, somnDataList);
+        adapter = new SomnAdapter(this, somnDataList); // Se folosește ArrayList<Somn>
         listView.setAdapter(adapter);
+
+        // Încărcarea datelor din baza de date
+        loadSomnData();
 
         Button goToDateSomnButton = findViewById(R.id.bGoToDateSomn);
         goToDateSomnButton.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, DateSomn.class);
             startActivityForResult(intent, 1);
+        });
+
+        Button buttonDeleteAll = findViewById(R.id.buttonDeleteAll);
+        buttonDeleteAll.setOnClickListener(v -> {
+            somnDAO.deleteAllSomn();
+            loadSomnData();
+            Toast.makeText(this, "Toate înregistrările au fost șterse!", Toast.LENGTH_SHORT).show();
         });
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -51,6 +62,17 @@ public class HomeActivity extends AppCompatActivity {
             startActivityForResult(intent, 2);
         });
 
+        listView.setOnItemLongClickListener((parent, view, position, id) -> {
+            Somn somnToDelete = somnDataList.get(position);
+
+            somnDAO.deleteSomnById(somnToDelete.getId());
+
+            somnDataList.remove(position);
+            adapter.notifyDataSetChanged();
+
+            Toast.makeText(this, "Înregistrare ștearsă!", Toast.LENGTH_SHORT).show();
+            return true;
+        });
 
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_logout) {
@@ -67,7 +89,6 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             } else if (item.getItemId() == R.id.action_profil) {
                 Intent intentProfil = new Intent(this, ProfilActivity.class);
-                intentProfil.putStringArrayListExtra("profilData", profilData);
                 startActivity(intentProfil);
                 return true;
             }
@@ -75,25 +96,11 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            Somn somnData = (Somn) data.getSerializableExtra("somnData");
-            somnDataList.add(somnData);
-            adapter.notifyDataSetChanged();
-        } else if (requestCode == 2 && resultCode == RESULT_OK) {
-            Somn updatedSomn = (Somn) data.getSerializableExtra("somnData");
-
-            int position = data.getIntExtra("position", -1);
-
-            if (position != -1) {
-                somnDataList.set(position, updatedSomn);
-                adapter.notifyDataSetChanged();
-            }
-        }
+    private void loadSomnData() {
+        somnDataList.clear();
+        somnDataList.addAll(somnDAO.getAllSomn());
+        adapter.notifyDataSetChanged();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,4 +108,22 @@ public class HomeActivity extends AppCompatActivity {
         inflater.inflate(R.menu.meniu, menu);
         return true;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                Somn somnData = (Somn) data.getSerializableExtra("somnData");
+
+                if (somnData != null) {
+                    somnDataList.add(somnData);
+                    somnDAO.insertSomn(somnData);
+
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
 }
