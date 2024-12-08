@@ -15,10 +15,10 @@ public class Somn implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
-    @TypeConverters(DateConverter.class)  // Adaugă TypeConverter pentru date
+    @TypeConverters(DateConverter.class)
     private Date dataSomnului;
 
-    @TypeConverters(DateConverter.class)  // Adaugă TypeConverter pentru ora trezirii
+    @TypeConverters(DateConverter.class)
     private Date oraTrezirii;
 
     private int durataSomnului;
@@ -81,7 +81,18 @@ public class Somn implements Serializable {
         this.note = note;
     }
 
-    // Metodele parseDate și parseTime trebuie să fie statice
+    @Override
+    public String toString() {
+        return "Somn{" +
+                "id=" + id +
+                ", dataSomnului=" + dataSomnului +
+                ", oraTrezirii=" + oraTrezirii +
+                ", durataSomnului=" + durataSomnului +
+                ", calitateSomnului=" + calitateSomnului +
+                ", note='" + note + '\'' +
+                '}';
+    }
+
     public static Date parseDate(String dateString) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {

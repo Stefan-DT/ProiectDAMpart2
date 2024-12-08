@@ -49,9 +49,18 @@
         android:id="@+id/buttonDeleteAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Șterge toate înregistrările"
+        android:layout_gravity="center"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center" />
+        android:text="Șterge toate înregistrările" />
+
+    <Button
+        android:id="@+id/btnAddReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Adaugă Review"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"/>
 
 
 </LinearLayout>

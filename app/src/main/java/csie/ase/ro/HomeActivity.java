@@ -2,9 +2,12 @@ package csie.ase.ro;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -16,30 +19,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
+    private static final String URLSomn = "https://www.jsonkeeper.com/b/I6CF";
 
-    private SomnDAO somnDAO; // DAO pentru Room
-    private ArrayList<Somn> somnDataList = new ArrayList<>();  // Modifică aici
+    private SomnDAO somnDAO;
+    private ArrayList<Somn> somnDataList = new ArrayList<>();
     private SomnAdapter adapter;
+    private ListView listViewSomnData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Toolbar
         Toolbar toolbar = findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
 
-        // Inițializare DAO
         somnDAO = SomnDB.getInstance(this).getSomnDAO();
 
-        // Inițializare ListView și Adapter
         ListView listView = findViewById(R.id.listViewSomnData);
-        adapter = new SomnAdapter(this, somnDataList); // Se folosește ArrayList<Somn>
+        adapter = new SomnAdapter(this, somnDataList);
         listView.setAdapter(adapter);
 
-        // Încărcarea datelor din baza de date
         loadSomnData();
+        initComponente();
+        incarcaSomnRetea();
+
+        Button btnAddReview = findViewById(R.id.btnAddReview);
+
+        btnAddReview.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ReviewActivity.class);
+            startActivity(intent);
+        });
 
         Button goToDateSomnButton = findViewById(R.id.bGoToDateSomn);
         goToDateSomnButton.setOnClickListener(v -> {
@@ -125,5 +136,35 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    private void incarcaSomnRetea() {
+        Thread thread = new Thread(() -> {
+            HttpsSomn httpsSomn = new HttpsSomn(URLSomn);
+            String rezultat = httpsSomn.procesareSomn();
+
+            runOnUiThread(() -> {
+                preluareSomnDinJson(rezultat);
+            });
+        });
+        thread.start();
+    }
+
+
+    public void initComponente(){
+        listViewSomnData = findViewById(R.id.listViewSomnData);
+        //ArrayAdapter<Somn> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, somnDataList);
+        listViewSomnData.setAdapter(adapter);
+
+    }
+    private void preluareSomnDinJson(String json) {
+        somnDataList.clear();
+        somnDataList.addAll(SomnParser.parsareJSON(json));
+        runOnUiThread(() -> {
+            adapter.notifyDataSetChanged();
+        });
+    }
+
+
 
 }

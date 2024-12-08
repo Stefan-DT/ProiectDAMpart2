@@ -2,7 +2,6 @@ package csie.ase.ro;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -33,7 +32,7 @@ public class EditAjutorActivity extends AppCompatActivity {
             String numeNou = editTextNume.getText().toString();
             String problemaNoua = editTextProblema.getText().toString();
 
-            Ajutor ajutorModificat = new Ajutor(numeNou, problemaNoua);
+            Ajutor ajutorModificat = new Ajutor(null, numeNou, problemaNoua);
 
             Intent resultIntent = new Intent();
             resultIntent.putExtra("updatedAjutor", ajutorModificat);

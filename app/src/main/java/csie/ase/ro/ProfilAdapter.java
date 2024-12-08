@@ -18,22 +18,30 @@ public class ProfilAdapter extends ArrayAdapter<String> {
     private List<String> profilData;
     private LayoutInflater inflater;
 
-
-    public ProfilAdapter(@NonNull Context context, int resource, @NonNull List<String> objects,  LayoutInflater inflater) {
+    // Constructor actualizat - nu mai primește LayoutInflater ca parametru
+    public ProfilAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
         super(context, resource, objects);
         this.layoutId = resource;
         this.profilData = objects;
-        this.inflater = inflater;
+        this.inflater = LayoutInflater.from(context); // Inițializăm LayoutInflater din context
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View view = inflater.inflate(layoutId, parent, false);
+        View view = convertView;
+        if (view == null) {
+            view = inflater.inflate(layoutId, parent, false);
+        }
+
         String data = profilData.get(position);
 
-      //  TextView textView = view.findViewById(R.id.textViewProfilData);
-        //textView.setText(data);
+        TextView textView = view.findViewById(R.id.textViewProfilData);
+        if (textView != null) {
+            textView.setText(data);
+        } else {
+            android.util.Log.e("ProfilAdapter", "TextView not found in layout at position: " + position);
+        }
 
         return view;
     }

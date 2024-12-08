@@ -13,7 +13,7 @@ public class Ajutor implements Serializable {
     private String descriereAjutor;
 
 
-    public Ajutor(String numeAjutor, String descriereAjutor) {
+    public Ajutor(Long id, String numeAjutor, String descriereAjutor) {
         this.numeAjutor = numeAjutor;
         this.descriereAjutor = descriereAjutor;
     }

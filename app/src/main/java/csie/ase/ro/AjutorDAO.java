@@ -25,6 +25,12 @@ public interface AjutorDAO {
     void deleteAjutorById(Long id);
 
     @Query("DELETE FROM Ajutor")
-    void deleteAllAjutor();
+    void deleteAllAjutoare();
+
+    @Query("SELECT COUNT(*) FROM ajutor WHERE id = :id")
+    boolean exists(Long id);
+
+    @Query("DELETE FROM ajutor")
+    void deleteAll();
 }
 

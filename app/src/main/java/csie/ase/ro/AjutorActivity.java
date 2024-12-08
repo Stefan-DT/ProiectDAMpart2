@@ -4,17 +4,15 @@ package csie.ase.ro;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +27,8 @@ public class AjutorActivity extends AppCompatActivity {
     private AjutorAdapter adapter;
 
     private SharedPreferences sharedPreferences;
+
+    private static final String URLAjutor = "https://www.jsonkeeper.com/b/34WX";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +45,18 @@ public class AjutorActivity extends AppCompatActivity {
         listViewInfo.setAdapter(adapter);
 
         ajutorDAO = AjutorDB.getInstance(this).getAjutorDAO();
-
+        listaMare.clear();
+        adapter.notifyDataSetChanged();
         loadAjutoare();
+        loadAjutoareFromNetwork();
+
 
         buttonTrimite.setOnClickListener(v -> {
             String nume = editTextInfo1.getText().toString();
             String problema = editTextInfo2.getText().toString();
 
             if (!nume.isEmpty() && !problema.isEmpty()) {
-                Ajutor ticket = new Ajutor(nume, problema);
+                Ajutor ticket = new Ajutor(null, nume, problema);
                 listaMare.add(ticket);
 
                 ajutorDAO.insertAjutor(ticket);
@@ -85,8 +88,6 @@ public class AjutorActivity extends AppCompatActivity {
 
     }
 
-
-
     private void loadAjutoare() {
         listaMare.clear();
         listaMare.addAll(ajutorDAO.getAjutor());
@@ -109,5 +110,41 @@ public class AjutorActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void loadAjutoareFromNetwork() {
+        Thread thread = new Thread(() -> {
+            HttpsAjutor httpsAjutor = new HttpsAjutor(URLAjutor);
+            String result = httpsAjutor.procesareAjutor();
+
+            runOnUiThread(() -> {
+                if (result != null) {
+                    preluareAjutorDinJson(result);
+                } else {
+                    Toast.makeText(AjutorActivity.this, "Nu am reușit să încărcăm datele din rețea", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+        thread.start();
+    }
+
+    private void preluareAjutorDinJson(String json) {
+        Log.d("AjutorActivity", "Răspuns JSON: " + json);
+        List<Ajutor> ajutorList = AjutorParser.parsareJSON(json);
+
+        listaMare.clear();
+
+        if (ajutorList.isEmpty()) {
+            Log.d("AjutorActivity", "Nicio înregistrare găsită!");
+        }
+
+        listaMare.addAll(ajutorList);
+
+        adapter.notifyDataSetChanged();
+        Toast.makeText(this, "Datele Ajutor au fost încărcate din rețea!", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
 
 }

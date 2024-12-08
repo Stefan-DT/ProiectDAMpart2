@@ -1,8 +1,9 @@
 package csie.ase.ro;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,51 +15,85 @@ public class ProfilActivity extends AppCompatActivity {
     private ListView listViewProfil;
     private ProfilAdapter profilAdapter;
     private List<String> profilData = new ArrayList<>();
+    private UserDAO userDao;
+
+    private static final String URLProfil = "https://www.jsonkeeper.com/b/WH12";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile); // Asigură-te că ai un layout corespunzător
+        setContentView(R.layout.activity_profile);
 
-        // Obține ListView-ul din layout
         listViewProfil = findViewById(R.id.listViewProfil);
 
-        // Obține datele din SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences("userProfile", MODE_PRIVATE);
+        loadUserDataFromDB();
 
-        // Adaugă datele în profilData, doar dacă nu sunt goale
-        String email = sharedPreferences.getString("email", "");
-        if (!email.isEmpty()) {
-            profilData.add("Email: " + email);
+        loadUserDataFromNetwork();
+    }
+
+    private void loadUserDataFromDB() {
+        UserDB db = UserDB.getInstance(this);
+        userDao = db.userDao();
+
+        new Thread(() -> {
+            List<User> userList = userDao.getAllUsers();
+            if (userList != null && !userList.isEmpty()) {
+                for (User user : userList) {
+                    profilData.add("Email: " + user.getEmail());
+                    profilData.add("Name: " + user.getName());
+                    profilData.add("Surname: " + user.getSurname());
+                    profilData.add("Age: " + user.getAge());
+                    profilData.add("Height: " + user.getHeight());
+                    profilData.add("Sex: " + user.getSex());
+                    profilData.add("----------------------------------------------------------------------------");
+                }
+
+                runOnUiThread(() -> {
+                    profilAdapter = new ProfilAdapter(this, R.layout.item_profil, profilData);
+                    listViewProfil.setAdapter(profilAdapter);
+                });
+            } else {
+                runOnUiThread(() -> {
+                    Toast.makeText(ProfilActivity.this, "Nu există date în baza de date", Toast.LENGTH_SHORT).show();
+                });
+            }
+        }).start();
+    }
+
+    private void loadUserDataFromNetwork() {
+        Thread thread = new Thread(() -> {
+            HttpsProfil httpsProfil = new HttpsProfil(URLProfil);
+            String result = httpsProfil.procesareProfil();
+
+            runOnUiThread(() -> {
+                if (result != null) {
+                    parseJsonData(result);
+                } else {
+                    Toast.makeText(ProfilActivity.this, "Nu am reușit să încărcăm datele din rețea", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+        thread.start();
+    }
+
+    private void parseJsonData(String json) {
+        Log.d("ProfilActivity", "Răspuns JSON: " + json);
+        List<User> userList = UserParser.parseJSON(json);
+
+        if (userList.isEmpty()) {
+            Log.d("ProfilActivity", "Nicio înregistrare găsită!");
         }
 
-        String name = sharedPreferences.getString("name", "");
-        if (!name.isEmpty()) {
-            profilData.add("Name: " + name);
+        for (User user : userList) {
+            profilData.add("Email: " + user.getEmail());
+            profilData.add("Name: " + user.getName());
+            profilData.add("Surname: " + user.getSurname());
+            profilData.add("Age: " + user.getAge());
+            profilData.add("Height: " + user.getHeight());
+            profilData.add("Sex: " + user.getSex());
+            profilData.add("----------------------------------------------------------------------------");
         }
 
-        String surname = sharedPreferences.getString("surname", "");
-        if (!surname.isEmpty()) {
-            profilData.add("Surname: " + surname);
-        }
-
-        String age = sharedPreferences.getString("age", "");
-        if (!age.isEmpty()) {
-            profilData.add("Age: " + age);
-        }
-
-        String height = sharedPreferences.getString("height", "");
-        if (!height.isEmpty()) {
-            profilData.add("Height: " + height);
-        }
-
-        String sex = sharedPreferences.getString("sex", "");
-        if (!sex.isEmpty()) {
-            profilData.add("Sex: " + sex);
-        }
-
-        // Configurarea adapter-ului pentru ListView
-        profilAdapter = new ProfilAdapter(this, R.layout.profil_list_item, profilData, getLayoutInflater());
-        listViewProfil.setAdapter(profilAdapter);
+        runOnUiThread(() -> profilAdapter.notifyDataSetChanged());
     }
 }
