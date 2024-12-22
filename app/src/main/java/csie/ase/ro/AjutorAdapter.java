@@ -34,7 +34,7 @@ public class AjutorAdapter extends ArrayAdapter<Ajutor> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View view = inflater.inflate(layoutId,parent,false);
+        View view = inflater.inflate(layoutId, parent, false);
         Ajutor listaElement = listaAjutoare.get(position);
 
         TextView textViewNume = view.findViewById(R.id.textViewNume);
@@ -48,9 +48,9 @@ public class AjutorAdapter extends ArrayAdapter<Ajutor> {
         textViewNume.setTypeface(textViewNume.getTypeface(), Typeface.BOLD);
         textViewProblema.setTypeface(textViewNume.getTypeface(), Typeface.BOLD);
 
-
         return view;
     }
+
 
 
 }

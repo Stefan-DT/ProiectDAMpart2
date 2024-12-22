@@ -18,12 +18,11 @@ public class ProfilAdapter extends ArrayAdapter<String> {
     private List<String> profilData;
     private LayoutInflater inflater;
 
-    // Constructor actualizat - nu mai primește LayoutInflater ca parametru
     public ProfilAdapter(@NonNull Context context, int resource, @NonNull List<String> objects) {
         super(context, resource, objects);
         this.layoutId = resource;
         this.profilData = objects;
-        this.inflater = LayoutInflater.from(context); // Inițializăm LayoutInflater din context
+        this.inflater = LayoutInflater.from(context);
     }
 
     @NonNull

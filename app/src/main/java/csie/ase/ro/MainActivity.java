@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -38,6 +39,11 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this, CreateAccountActivity.class);
                 startActivity(intent);
             }
+        });
+
+        Button bInfo = findViewById(R.id.bInfo);
+        bInfo.setOnClickListener(v->{
+            Toast.makeText(this,"Dumitru Ștefan - 1094D",Toast.LENGTH_LONG).show();
         });
     }
 }

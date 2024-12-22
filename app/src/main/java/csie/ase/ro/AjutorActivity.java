@@ -47,9 +47,9 @@ public class AjutorActivity extends AppCompatActivity {
         ajutorDAO = AjutorDB.getInstance(this).getAjutorDAO();
         listaMare.clear();
         adapter.notifyDataSetChanged();
-        loadAjutoare();
-        loadAjutoareFromNetwork();
 
+        loadAjutoareFromDB();
+        loadAjutoareFromNetwork();
 
         buttonTrimite.setOnClickListener(v -> {
             String nume = editTextInfo1.getText().toString();
@@ -57,11 +57,14 @@ public class AjutorActivity extends AppCompatActivity {
 
             if (!nume.isEmpty() && !problema.isEmpty()) {
                 Ajutor ticket = new Ajutor(null, nume, problema);
-                listaMare.add(ticket);
 
                 ajutorDAO.insertAjutor(ticket);
 
+                listaMare.add(ticket);
                 adapter.notifyDataSetChanged();
+
+                editTextInfo1.setText("");
+                editTextInfo2.setText("");
             }
         });
 
@@ -74,41 +77,21 @@ public class AjutorActivity extends AppCompatActivity {
             startActivityForResult(intent, 1);
         });
 
-
         listViewInfo.setOnItemLongClickListener((parent, view, position, id) -> {
             Ajutor ajutorToDelete = listaMare.get(position);
 
             ajutorDAO.deleteAjutorById(ajutorToDelete.getId());
-
             listaMare.remove(position);
             adapter.notifyDataSetChanged();
 
             return true;
         });
-
     }
 
-    private void loadAjutoare() {
+    private void loadAjutoareFromDB() {
         listaMare.clear();
         listaMare.addAll(ajutorDAO.getAjutor());
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK && requestCode == 1) {
-            Ajutor updatedAjutor = (Ajutor) data.getSerializableExtra("updatedAjutor");
-            int position = data.getIntExtra("position", -1);
-
-            if (position != -1) {
-                ajutorDAO.updateAjutor(updatedAjutor);
-
-                listaMare.set(position, updatedAjutor);
-                adapter.notifyDataSetChanged();
-            }
-        }
     }
 
     private void loadAjutoareFromNetwork() {
@@ -129,19 +112,14 @@ public class AjutorActivity extends AppCompatActivity {
 
     private void preluareAjutorDinJson(String json) {
         Log.d("AjutorActivity", "Răspuns JSON: " + json);
-        List<Ajutor> ajutorList = AjutorParser.parsareJSON(json);
+        List<Ajutor> ajutoareDinJson = AjutorParser.parsareJSON(json);
 
-        listaMare.clear();
-
-        if (ajutorList.isEmpty()) {
-            Log.d("AjutorActivity", "Nicio înregistrare găsită!");
-        }
-
-        listaMare.addAll(ajutorList);
-
+        listaMare.addAll(ajutoareDinJson);
         adapter.notifyDataSetChanged();
+
         Toast.makeText(this, "Datele Ajutor au fost încărcate din rețea!", Toast.LENGTH_SHORT).show();
     }
+
 
 
 

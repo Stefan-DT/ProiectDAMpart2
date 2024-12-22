@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomMenuTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:popupMenuStyle">@style/CustomPopupMenu</item>
+    </style>
+
+    <style name="CustomPopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@color/mov_background</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+</resources>

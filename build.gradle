@@ -1,4 +1,23 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google() // Firebase și Google services sunt disponibile în acest repository
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.3.15' // Google services classpath
+        classpath 'com.android.tools.build:gradle:7.4.1' // Gradle plugin pentru Android
+    }
+}
+
 plugins {
-alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.application) apply false // Aplică pluginul Android
+    id 'com.google.gms.google-services' version '4.4.2' apply false // Plugin pentru Google Services
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
 }

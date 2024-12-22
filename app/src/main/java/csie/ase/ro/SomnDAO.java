@@ -25,6 +25,6 @@ public interface SomnDAO {
     @Query("DELETE FROM Somn WHERE id = :id")
     void deleteSomnById(Long id);
 
-    @Query("DELETE FROM somn")
+    @Query("DELETE FROM Somn")
     void deleteAllSomn();
 }

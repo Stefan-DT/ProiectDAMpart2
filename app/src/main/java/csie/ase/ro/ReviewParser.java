@@ -11,15 +11,17 @@ public class ReviewParser {
     public static List<Review> parseReviews(String json) {
         List<Review> reviewList = new ArrayList<>();
         try {
-            JSONObject jsonObject = new JSONObject(json);
-            JSONArray reviewsArray = jsonObject.getJSONArray("reviews");
+            JSONArray reviewsArray = new JSONArray(json);
 
             for (int i = 0; i < reviewsArray.length(); i++) {
                 JSONObject reviewObj = reviewsArray.getJSONObject(i);
                 Review review = new Review();
+
+                review.setId(reviewObj.getInt("id"));
                 review.setReviewText(reviewObj.getString("review"));
                 review.setRating((float) reviewObj.getDouble("rating"));
                 review.setUser(reviewObj.getString("user"));
+
                 reviewList.add(review);
             }
         } catch (JSONException e) {

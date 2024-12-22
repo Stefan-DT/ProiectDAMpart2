@@ -33,4 +33,3 @@ public interface AjutorDAO {
     @Query("DELETE FROM ajutor")
     void deleteAll();
 }
-

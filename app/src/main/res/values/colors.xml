@@ -3,4 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green" />
+    <color name="mov_background">#9C27B0</color> <!-- Mov -->
 </resources>

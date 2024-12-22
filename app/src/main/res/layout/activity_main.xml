@@ -64,12 +64,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="Ai uitat parola contului tău?" />
+        android:text="Aplicație realizată de .." />
 
     <Button
-        android:id="@+id/bResetPassword"
+        android:id="@+id/bInfo"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:text="Resetează parola" />
+        android:text="INFO" />
 
 </LinearLayout>

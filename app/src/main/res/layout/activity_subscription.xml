@@ -1,0 +1,43 @@
+<!-- activity_subscription.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#e29745"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nume Abonament" />
+
+    <EditText
+        android:id="@+id/editTextType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tip Abonament" />
+
+    <EditText
+        android:id="@+id/editTextDuration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Durata Abonament" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Salvează" />
+
+    <Button
+        android:id="@+id/btnDeleteAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Șterge Tot" />
+
+    <ListView
+        android:id="@+id/subscriptionsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

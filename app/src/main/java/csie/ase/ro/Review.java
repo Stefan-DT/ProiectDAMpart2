@@ -6,7 +6,6 @@ public class Review {
     private float rating;
     private String user;
 
-
     public Review() {
     }
 

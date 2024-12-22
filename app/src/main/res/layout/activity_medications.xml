@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#e29745"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nume Medicament" />
+
+    <EditText
+        android:id="@+id/editTextDosage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Doză" />
+
+    <EditText
+        android:id="@+id/editTextInstructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Detalii" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Salvează medicamentul"
+        android:onClick="saveMedication" />
+
+    <Button
+        android:id="@+id/btnDeleteAll"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Șterge toate datele" />
+
+    <ListView
+        android:id="@+id/medicationsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>
